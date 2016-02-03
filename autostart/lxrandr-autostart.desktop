@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Application
+Name=LXRandR autostart
+Comment=Start xrandr with settings done in LXRandR
+Exec=xrandr --output VGA1 --auto --output LVDS1 --auto
+OnlyShowIn=LXDE

@@ -1,0 +1,13 @@
+
+[Desktop Entry]
+Name=Remote Desktop
+Comment=GNOME Remote Desktop Server
+Exec=/usr/lib/vino/vino-server --sm-disable
+Icon=preferences-desktop-remote-desktop
+OnlyShowIn=GNOME;LXDE;
+Terminal=false
+Type=Application
+AutostartCondition=GNOME /desktop/gnome/remote_access/enabled
+X-GNOME-Autostart-Phase=Applications
+X-GNOME-AutoRestart=true
+X-Ubuntu-Gettext-Domain=vino
