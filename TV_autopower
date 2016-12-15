@@ -1,4 +1,7 @@
 #!/usr/bin/python
+# arquivo copiado do repositorio eesc/tv-tools no bitbucket.
+# se editar local tem de atualizar no servidor git
+# *****************
 
 import os, datetime, urllib
 
