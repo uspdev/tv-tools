@@ -1,0 +1,10 @@
+dbus-launch gsettings set org.gnome.Vino prompt-enabled false
+
+gsettings set org.gnome.Vino require-encryption false
+
+dbus-launch gsettings set org.gnome.desktop.lockdown disable-user-switching true
+dbus-launch gsettings set org.gnome.desktop.lockdown disable-log-out true
+dbus-launch gsettings set org.gnome.desktop.interface enable-animations false
+
+dbus-launch gsettings set org.gnome.Vino authentication-methods "['vnc']"
+dbus-launch gsettings set org.gnome.Vino vnc-password $(echo -n "mypassword"|base64)
