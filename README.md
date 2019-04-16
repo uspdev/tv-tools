@@ -5,7 +5,7 @@
 Instruções para colocar uma TV como painel:
 
 ### Pré-Requisitos
-* distribuição minimalista Linux (neste uso, o Lubuntu foi utilizado)
+* distribuição minimalista Linux (neste uso, o Lubuntu 18.04)
 * navegador: chromium
 * editor de configurações: dconf-editor
 * servidor VNC: vino-server
@@ -16,7 +16,8 @@ Instruções para colocar uma TV como painel:
 1. Efetuar a instalação dos pacotes acima citados (todos via apt)
 2. Configuração do modo kiosk do chromium e ajustar no _startup_
    - copiar o conteúdo da pasta **autostart** em .config/autostart
-   - copiar o **index.html** para a home do usuário
+   - copiar o **index.html** e o **kiosk.sh** para a home do usuário
+
 3. Configurações do vino
    - Executar o conteúdo de **vino-settings** (necessita de detalhamento).
 4. Configurar crontab
