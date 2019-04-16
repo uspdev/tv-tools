@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Application
+Name=LXRandR autostart
+Comment= Chromium autostart
+Exec=/home/tvpc/kiosk.sh
+OnlyShowIn=LXDE
