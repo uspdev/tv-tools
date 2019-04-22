@@ -49,7 +49,8 @@ if (now.weekday() > 4) or ( (now.day, now.month) in EXC) or (now.hour >= 19) or 
         os.system("ssh %s acpitool -s >> /root/tv_log" % TV_IP)
 else:
 	os.system("echo 'Wake On Lan' >> /root/tv_log")
-	os.system("etherwake -i eth0 %s >> /root/tv_log" % TV_MAC)
+	#os.system("etherwake -i eth0 %s >> /root/tv_log" % TV_MAC)
+        os.system("wakeonlan -i %s %s >> /root/tv_log"%(TV_IP, TV_MAC))
 
 os.system("date >> /root/log")
 
