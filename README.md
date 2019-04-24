@@ -2,39 +2,44 @@
 
 ## Ferramentas para TV como painel informativo
 
-Instruções para colocar uma TV como painel:
+O objetivo desse repositório é configurar um PC (pctv) conectado à uma TV de forma a apresentar uma tela de sinalização digital (signage). Para isso o PC é configurado para carrgar o chromium em modo "kiosk". O conteúdo a ser apresentado é gerado em um sistema à parte que disponibiliza as informaçõe spor meio de uma página web configurado para rodar no modo kiosk.
+
+Para facilitar a manutenção é configurado um servidor vnc para permitir o acesso remoto da tela.
+
+Para economizar energia, o PC é desligado remotamente nos horários sem utilização e também ligado remotamente. Em princípio está definido para ligar às 7:00 e desligas às 19:00, todos os dias. Há uma previsão para não ligar nos finais de semana mas não está implementado adequadamente.
 
 ### Pré-Requisitos
 * distribuição minimalista Linux (neste caso usamos o Lubuntu 18.04)
 * navegador: chromium
-* ferramenta de Wakeonlan: Wakeonlan
 * configuração da placa de rede: ethtool
 * servidor VNC: vino-server
 * remover o cursor: unclutter
-* servidor SSH: openssh
+* servidor SSH: openssh-server
 
-
-
-
+* um servidor remoto (linux) na mesma lan para ligar e desligar o pctv.
 
 ### Passo a passo
-1. Efetuar a instalação do sistema, dos pacotes acima citados (todos via apt) e dar permissões administrativas ao
-   usuário
+1. Efetuar a instalação do sistema, dos pacotes acima citados (todos via apt):
+```
+apt install -y chromium ethtool vino-server unclutter openssh-server
+```
+
+ 2. Dar permissões administrativas ao usuário
    - Administrador: visudo -> user ALL=(ALL) NOPASSWD: ALL (reinicie a máquina)
    - habilitar autologin: /etc/lightdm/lightdm.conf
    - criar /etc/lightdm/lightdm.conf.d e dentro dela colocar 50-myconfig.conf
-2. Configuração do modo kiosk do chromium e ajustar no _startup_
+3. Configuração do modo kiosk do chromium e ajustar no _startup_
    - copiar o conteúdo da pasta **autostart** em .config/autostart
    - copiar o **index.html** e o **kiosk.sh** para a home do usuário
-3. Habilitar Wake on Lan
+4. Habilitar Wake on Lan
    - verificar se a placa suporta a configuração com _sudo ethtool <identificador da placa> | grep Wake_
    - A linha _Supports Wake-on: <letters>_ deve conter a letra g, identificando que o pacote é suportado pela placa.
    - Se a linha _Wake on: <letters>_ contiver um g, Wake on Lan está habilitado. Caso contenha um d, habilite com o
        comando _sudo ethtool -s <identificador da placa> wol g_
-4. Configurações do vino
+5. Configurações do vino
    - Executar o conteúdo de **vino-settings** (habilitar acesso com senha à máquina remota). Altere a senha genérica
        "mypassword" para a senha desejada
-5. Configurar boot e shutdown remoto 
+6. Configurar boot e shutdown remoto 
    1. Kiosk
       - dar permissão de escrita ao arquivo /sys/power/state ao usuário.
    2. Máquina que fará o boot/shutdown
@@ -46,3 +51,14 @@ Instruções para colocar uma TV como painel:
 - É importante salientar a importância de uma segunda máquina para efetuar o power-on do kiosk.
 - O Wake on Lan é desabilitado a cada reboot - adicione o comando a um dos scripts de inicialização ao seu usuário para que seja possível manter a configuração.
 - Se o SO usar o netplan, no arquivo /etc/netplan/01-netcfg.yaml é possível habilitar wake on lan com wakeonlan: yes
+
+
+## Manutenção periódica
+
+O SO do pc tem de ser atualizado periódicamente com:
+```
+apt update
+apt upgrade
+cd /home/tvpc/tv-tools/
+git pull
+```
