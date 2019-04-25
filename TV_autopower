@@ -3,54 +3,55 @@
 # se editar local tem de atualizar no servidor git
 # *****************
 
-import os, datetime, urllib
+import os
+import datetime
+import urllib
 
 TV_MAC = "70:71:bc:62:e5:83"
 TV_IP = "10.233.31.19"
 
 # Feriados
 EXC = [
-(01,01),
-(21,04),
-(01,05),
-(07,9),
-(12,10),
-(02,11),
-(04,11),
-(15,11),
-(25,12),
+    (01, 01),
+    (21, 04),
+    (01, 05),
+    (07, 9),
+    (12, 10),
+    (02, 11),
+    (04, 11),
+    (15, 11),
+    (25, 12),
 ]
 
 # emendas
 EXC += [
-(03,11),
+    (03, 11),
 ]
 
 # Semana de recesso
 EXC += [
-(23,12),
-(24,12),
-(26,12),
-(27,12),
-(28,12),
-(29,12),
-(30,12),
-(31,12),
-(02,01),
-(03,01),
-(04,01),
-(05,01),
-(06,01),
+    (23, 12),
+    (24, 12),
+    (26, 12),
+    (27, 12),
+    (28, 12),
+    (29, 12),
+    (30, 12),
+    (31, 12),
+    (02, 01),
+    (03, 01),
+    (04, 01),
+    (05, 01),
+    (06, 01),
 ]
 
 now = datetime.datetime.now()
-if (now.weekday() > 4) or ( (now.day, now.month) in EXC) or (now.hour >= 19) or (now.hour <= 7):
-	os.system("echo 'ACPITOOL' >> /root/tv_log")
+if (now.weekday() > 4) or ((now.day, now.month) in EXC) or (now.hour >= 19) or (now.hour <= 7):
+    os.system("echo 'ACPITOOL' >> /root/tv_log")
     os.system("ssh %s acpitool -s >> /root/tv_log" % TV_IP)
 else:
-	os.system("echo 'Wake On Lan' >> /root/tv_log")
-	#os.system("etherwake -i eth0 %s >> /root/tv_log" % TV_MAC)
-    os.system("wakeonlan %s >> /root/tv_log"%(TV_MAC))
+    os.system("echo 'Wake On Lan' >> /root/tv_log")
+    #os.system("etherwake -i eth0 %s >> /root/tv_log" % TV_MAC)
+    os.system("wakeonlan %s >> /root/tv_log" % (TV_MAC))
 
 os.system("date >> /root/tv_log")
-
