@@ -10,7 +10,8 @@ import urllib
 TV_MAC = "70:71:bc:62:e5:83"
 TV_IP = "10.233.31.19"
 
-# Feriados
+# EXC: dia/mes que não irá ligar
+# Feriados (dia, mes)
 EXC = [
     (01, 01),
     (21, 04),
@@ -24,11 +25,11 @@ EXC = [
 ]
 
 # emendas
-EXC += [
-    (03, 11),
-]
+# EXC += [
+#     (03, 11),
+# ]
 
-# Semana de recesso
+# Semana de recesso no final do ano
 EXC += [
     (23, 12),
     (24, 12),
@@ -38,14 +39,11 @@ EXC += [
     (29, 12),
     (30, 12),
     (31, 12),
-    (02, 01),
-    (03, 01),
-    (04, 01),
-    (05, 01),
-    (06, 01),
 ]
 
 now = datetime.datetime.now()
+
+# segunda a sexta      ou está no exclude               ou  é noite
 if (now.weekday() > 4) or ((now.day, now.month) in EXC) or (now.hour >= 19) or (now.hour <= 7):
     os.system("echo 'ACPITOOL' >> /root/tv_log")
     os.system("ssh %s acpitool -s >> /root/tv_log" % TV_IP)
