@@ -2,7 +2,7 @@
 
 export DISPLAY=:0
 
-# para que serve ??
+# vamos esconder o cursor
 unclutter &
 
 # vamos prevenir a mensagem de restauração de páginas
