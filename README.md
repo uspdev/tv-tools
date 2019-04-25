@@ -2,11 +2,11 @@
 
 ## Ferramentas para TV como painel informativo
 
-O objetivo desse repositório é configurar um PC (pctv) conectado à uma TV de forma a apresentar uma tela de sinalização digital (signage). Para isso o PC é configurado para carrgar o chromium em modo "kiosk". O conteúdo a ser apresentado é gerado em um sistema à parte que disponibiliza as informaçõe spor meio de uma página web configurado para rodar no modo kiosk.
+O objetivo desse repositório é configurar um PC (tvpc) conectado à uma TV de forma a apresentar uma tela de sinalização digital (signage). Para isso o PC é configurado para carregar o chromium em modo "kiosk". O conteúdo a ser apresentado é gerado em um sistema à parte que disponibiliza as informações por meio de uma página web configurado para rodar no modo kiosk.
 
 Para facilitar a manutenção é configurado um servidor vnc para permitir o acesso remoto da tela.
 
-Para economizar energia, o PC é desligado remotamente nos horários sem utilização e também ligado remotamente. Em princípio está definido para ligar às 7:00 e desligas às 19:00, todos os dias. Há uma previsão para não ligar nos finais de semana mas não está implementado adequadamente.
+Para economizar energia, o PC é desligado remotamente nos horários sem utilização e também ligado remotamente. Em princípio está definido para ligar às 7:00 e desligar às 19:00, todos os dias. Há uma previsão para não ligar nos finais de semana mas não está implementado adequadamente.
 
 ### Pré-Requisitos
 * distribuição minimalista Linux (neste caso usamos o Lubuntu 18.04)
@@ -15,8 +15,7 @@ Para economizar energia, o PC é desligado remotamente nos horários sem utiliza
 * servidor VNC: vino-server
 * remover o cursor: unclutter
 * servidor SSH: openssh-server
-
-* um servidor remoto (linux) na mesma lan para ligar e desligar o pctv.
+* um servidor remoto (linux) na mesma lan para ligar e desligar o tvpc.
 
 ### Passo a passo
 1. Efetuar a instalação do sistema, dos pacotes acima citados (todos via apt):
