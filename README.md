@@ -29,7 +29,8 @@ apt install -y chromium ethtool vino-server unclutter openssh-server
    - criar /etc/lightdm/lightdm.conf.d e dentro dela colocar 50-myconfig.conf
 3. Configuração do modo kiosk do chromium e ajustar no _startup_
    - copiar o conteúdo da pasta **autostart** em .config/autostart
-   - copiar o **index.html** e o **kiosk.sh** para a home do usuário
+   - copiar o **index.html** e o **kiosk.sh** para a home do usuário (não esquecer de dar permissões de execução ao
+       script)
 4. Habilitar Wake on Lan
    - verificar se a placa suporta a configuração com _sudo ethtool <identificador da placa> | grep Wake_
    - A linha _Supports Wake-on: <letters>_ deve conter a letra g, identificando que o pacote é suportado pela placa.
