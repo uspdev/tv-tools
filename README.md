@@ -32,7 +32,10 @@ apt install -y chromium ethtool vino-server unclutter openssh-server
    - ~copiar o **index.html** e o **kiosk.sh** para a home do usuário (não esquecer de dar permissões de execução ao script)~
    - executar o script **links.sh** (não esqucer de garantir as permissões devidas)
 4. Habilitar Wake on Lan
-   - verificar se a placa suporta a configuração com _sudo ethtool <identificador da placa> | grep Wake_
+   - verificar se a placa suporta a configuração com
+   ```
+   sudo ethtool <identificador da placa> | grep Wake
+   ```
    - A linha _Supports Wake-on: <letters>_ deve conter a letra g, identificando que o pacote é suportado pela placa.
    - Se a linha _Wake on: <letters>_ contiver um g, Wake on Lan está habilitado. Caso contenha um d, habilite com o
        comando _sudo ethtool -s <identificador da placa> wol g_
