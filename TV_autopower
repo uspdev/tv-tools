@@ -6,6 +6,7 @@
 import os
 import datetime
 import urllib
+import json
 
 TV_MAC = "70:71:bc:62:e5:83"
 TV_IP = "10.233.31.19"
@@ -43,13 +44,17 @@ EXC += [
 
 now = datetime.datetime.now()
 
-# segunda a sexta      ou está no exclude               ou  é noite
-if (now.weekday() > 4) or ((now.day, now.month) in EXC) or (now.hour >= 19) or (now.hour <= 7):
-    os.system("echo 'ACPITOOL' >> /root/tv_log")
-    os.system("ssh %s acpitool -s >> /root/tv_log" % TV_IP)
-else:
-    os.system("echo 'Wake On Lan' >> /root/tv_log")
-    #os.system("etherwake -i eth0 %s >> /root/tv_log" % TV_MAC)
-    os.system("wakeonlan %s >> /root/tv_log" % (TV_MAC))
+with open('ipList.json', 'r') as jsFile:
+    ipList = json.load(jsFile)
+    for p in ipList['adresses']
+        # segunda a sexta      ou está no exclude               ou  é noite
+        if (now.weekday() > 4) or ((now.day, now.month) in EXC) or (now.hour >= 19) or (now.hour <= 7):
+            os.system("echo 'ACPITOOL' >> /root/tv_log")
+            os.system("ssh %s acpitool -s >> /root/tv_log" % p['IP'])
+        else:
+            os.system("echo 'Wake On Lan' >> /root/tv_log")
+            #os.system("etherwake -i eth0 %s >> /root/tv_log" % TV_MAC)
+            os.system("wakeonlan %s >> /root/tv_log" % p['MAC'])
+        
 
 os.system("date >> /root/tv_log")
