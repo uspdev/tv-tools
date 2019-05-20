@@ -25,12 +25,12 @@ apt install -y chromium ethtool vino-server unclutter openssh-server
 
  2. Dar permissões administrativas ao usuário
    - Administrador: visudo -> user ALL=(ALL) NOPASSWD: ALL (reinicie a máquina)
-   - habilitar autologin: /etc/lightdm/lightdm.conf
-   - criar /etc/lightdm/lightdm.conf.d e dentro dela colocar 50-myconfig.conf
+   - ~habilitar autologin: /etc/lightdm/lightdm.conf~
+   - ~criar /etc/lightdm/lightdm.conf.d e dentro dela colocar 50-myconfig.conf~
+   - executar o script **links.sh** (não esqucer de garantir as permissões devidas). Modifique usuário e senha
 3. Configuração do modo kiosk do chromium e ajustar no _startup_
    - ~copiar o conteúdo da pasta **autostart** em .config/autostart~
    - ~copiar o **index.html** e o **kiosk.sh** para a home do usuário (não esquecer de dar permissões de execução ao script)~
-   - executar o script **links.sh** (não esqucer de garantir as permissões devidas)
 4. Habilitar Wake on Lan
    - verificar se a placa suporta a configuração com
    ```
@@ -40,8 +40,7 @@ apt install -y chromium ethtool vino-server unclutter openssh-server
    - Se a linha _Wake on: <letters>_ contiver um g, Wake on Lan está habilitado. Caso contenha um d, habilite com o
        comando _sudo ethtool -s <identificador da placa> wol g_
 5. Configurações do vino
-   - Executar o conteúdo de **vino-settings** (habilitar acesso com senha à máquina remota). Altere a senha genérica
-       "mypassword" para a senha desejada
+   - Executar o conteúdo de **vino-settings** (habilitar acesso com senha à máquina remota).
 6. Configurar boot e shutdown remoto 
    1. Kiosk
       - dar permissão de escrita ao arquivo /sys/power/state ao usuário.
@@ -54,14 +53,22 @@ apt install -y chromium ethtool vino-server unclutter openssh-server
 - É importante salientar a importância de uma segunda máquina para efetuar o power-on do kiosk.
 - O Wake on Lan é desabilitado a cada reboot - adicione o comando a um dos scripts de inicialização ao seu usuário para que seja possível manter a configuração.
 - Se o SO usar o netplan, no arquivo /etc/netplan/01-netcfg.yaml é possível habilitar wake on lan com wakeonlan: yes
+- **ATENÇÃO** Não se esqueça de habilitar um ntp-server no crontab - em caso de possíveis problemas com a sincronização de horário (em processo de implementação)
 
 
 ## Manutenção periódica
 
-O SO do pc tem de ser atualizado periódicamente com:
+- O SO do pc tem de ser atualizado periódicamente com:
 ```
 apt update
 apt upgrade
 cd /home/tvpc/tv-tools/
+git pull
+```
+- **ATENÇÃO** - caso não seja utilizado o usuário e/ou senha padrão, favor executar a atualização da seguinte forma.
+```
+apt update && apt upgrade -y
+cd /home/tvpc/tv-tools/
+git stash
 git pull
 ```

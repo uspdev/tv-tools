@@ -1,23 +1,37 @@
-#!/usr/bin/bash
+#!/bin/bash
 
+#variáveis para link
 SOURCE=$HOME/tv-tools
 AUTO=$HOME/.config/autostart
+LIGHTDM_PATH=/etc/lightdm
 
-
-#test if  /etc/lightdm/lightdm.conf exists.
-
-
-[ ! -e /etc/lightdm.conf ] && cp ./lightdm.conf /etc/lightdm/lightdm.conf;
-[ ! -e /etc/lightdm.conf.d ] && mkdir /etc/lightdm/lightdm.conf.d && cp ./50-myconfig.conf /etc/lightdm/lightdm.conf.d;
-read -p "Informe o nome de usuário, por favor (enter para usuário padrão)" username
-
-
-if([ -z "$username" ])
+#garantir que o usuário está correto em todos os arquivos
+read -p "Informe o nome de usuário, por favor (Pressione enter para usuário padrão)" username
+if([ ! -z "$username" ])
 then
-	sed -i "s/tvpc/$username/g" /etc/lightdm/lightdm.conf.d/50-myconfig.conf;
-	sed -i "s/tvpc/$username/g" /etc/lightdm/lightdm.conf
+	for val in $(grep -Ril "tvpc" .)
+	do
+		@sed -i "s/tvpc/$username/g" $val
+		
+	done
 fi
 
+#copiar o lightdm.conf para o local correto
+cp ./lightdm.conf $LIGHTDM_PATH/lightdm.conf;
+
+#criar a pasta lightdm.conf.d caso não exista e copiar 50-myconfig.conf para ela
+([ ! -e $LIGHTDM_PATH/lightdm.conf.d ] && mkdir $LIGHTDM_PATH/lightdm.conf.d) || cp ./50-myconfig.conf $LIGHTDM_PATH/lightdm.conf.d;
+read -p "Agora, altere a senha (Pressione enter para a senha padrão)" password
+
+#a senha padrão para acesso remoto está em vino-settings
+if([ ! -z "$password" ])
+then
+	#modificando senha do vino
+	sed -i "s/mypassword/$password/g" ./vino-settings
+		
+fi
+
+#criando links para o conteúdo 
 ln -s $SOURCE/chromium_autostart.desktop $AUTO/chromium_autostart.desktop
 ln -s $SOURCE/lxrandr-autostart.desktop $AUTO/lxrandr-autostart.desktop
 ln -s $SOURCE/tv-tools/vino-server.desktop $AUTO/vino-server.desktop
