@@ -16,6 +16,7 @@ Para economizar energia, o PC é desligado remotamente nos horários sem utiliza
 * remover o cursor: unclutter
 * servidor SSH: openssh-server
 * um servidor remoto (linux) na mesma lan para ligar e desligar o tvpc.
+* python 3 instalado
 
 ### Passo a passo
 1. Efetuar a instalação do sistema, dos pacotes acima citados (todos via apt):
@@ -27,7 +28,7 @@ apt install -y chromium ethtool vino-server unclutter openssh-server
    - Administrador: visudo -> user ALL=(ALL) NOPASSWD: ALL (reinicie a máquina)
    - ~habilitar autologin: /etc/lightdm/lightdm.conf~
    - ~criar /etc/lightdm/lightdm.conf.d e dentro dela colocar 50-myconfig.conf~
-   - executar o script **links.sh** (não esqucer de garantir as permissões devidas). Modifique usuário e senha
+   - executar o script **links.py** (não esqucer de garantir as permissões devidas). Modifique usuário e senha
 3. Configuração do modo kiosk do chromium e ajustar no _startup_
    - ~copiar o conteúdo da pasta **autostart** em .config/autostart~
    - ~copiar o **index.html** e o **kiosk.sh** para a home do usuário (não esquecer de dar permissões de execução ao script)~
