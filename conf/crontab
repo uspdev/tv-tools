@@ -13,5 +13,5 @@ PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 52 6	1 * *	root	test -x /usr/sbin/anacron || ( cd / && run-parts --report /etc/cron.monthly )
 
 # Rodará a cada 5 mins, em qualquer minuto, de segunda a sexta
-*/5 *	* * 1-5	root	/root/tv-tools/TV_autopower
+*/5 *	* * 1-5	root	/root/tv-tools/TV_autopower.py
 #
