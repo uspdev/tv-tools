@@ -4,3 +4,5 @@
 # Logo, é desnecessário para a execução do projeto.
 tags
 ipList.json
+.vscode
+__pycache__
