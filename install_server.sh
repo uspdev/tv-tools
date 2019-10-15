@@ -1,6 +1,9 @@
 #!/bin/bash
 
+# TODO: melhorar a segurança de senhas desse script
+
 TVPC_USER='tvpc'
+TVPC_PASS_BASE=$(date)
 
 SOURCE=$(pwd)
 AUTOSTART_DIR=/home/$TVPC_USER/.config/autostart
@@ -19,7 +22,9 @@ ntpdate a.st1.ntp.br
 
 echo "Criando usuário padrão para TV Tools. Usuário padrão: $TVPC_USER"
 
-PASSWORD=date | sha256sum # senha aleatória por questões de segurança
+echo "A senha é baseada nesta string: $TVPC_PASS_BASE"
+
+PASSWORD=echo $TVPC_PASS_BASE | sha256sum # senha aleatória por questões de segurança
 useradd -m -p $PASSWORD -s /bin/bash $TVPC_USER
 
 echo "Instalando configurações básicas"
@@ -44,3 +49,18 @@ chown -R "$TVPC_USER:$TVPC_USER" $AUTOSTART_DIR
 echo "Linkando Kiosk mode"
 ln -s $SOURCE/index.html /home/$TVPC_USER/index.html
 ln -s $SOURCE/kiosk.sh /home/$TVPC_USER/kiosk.sh
+
+
+echo "Configurando o Vino Server"
+
+dbus-launch gsettings set org.gnome.Vino prompt-enabled false
+
+# Pq sem encriptação??
+gsettings set org.gnome.Vino require-encryption false
+
+dbus-launch gsettings set org.gnome.desktop.lockdown disable-user-switching true
+dbus-launch gsettings set org.gnome.desktop.lockdown disable-log-out true
+dbus-launch gsettings set org.gnome.desktop.interface enable-animations false
+
+dbus-launch gsettings set org.gnome.Vino authentication-methods "['vnc']"
+dbus-launch gsettings set org.gnome.Vino vnc-password $(echo  $PASSWORD | base64)
