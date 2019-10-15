@@ -1,4 +1,5 @@
-#!/usr/bin/python
+#!/usr/bin/python3
+
 # arquivo copiado do repositorio eesc/tv-tools no bitbucket.
 # se editar local tem de atualizar no servidor git
 # *****************
@@ -53,8 +54,8 @@ with open('ipList.json', 'r') as jsFile:
             os.system("ssh %s acpitool -s >> /root/tv_log" % p['IP'])
         else:
             os.system("echo 'Wake On Lan' >> /root/tv_log")
-            #os.system("etherwake -i eth0 %s >> /root/tv_log" % TV_MAC)
+            # os.system("etherwake -i eth0 %s >> /root/tv_log" % TV_MAC)
             os.system("wakeonlan %s >> /root/tv_log" % p['MAC'])
-        
+
 
 os.system("date >> /root/tv_log")
