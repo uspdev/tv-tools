@@ -51,17 +51,21 @@ def dia_util(data_atual):
     return data_atual.weekday() < 4
 
 
+def fica_desligado(data_atual, dias_desligado):
+    hoje = (data_atual.day, data_atual.month)
+    return hoje in dias_desligado
+
+
 def dispara_acpi_wake():
     for ip, mac in PCTVS.items():
         # segunda a sexta      ou está no exclude               ou  é noite
-        if (! dia_util(now) or ((now.day, now.month) in NO_POWER_ON) or (now.hour >= 19) or (now.hour <= 7):
+        if not dia_util(now) or fica_desligado(now, NO_POWER_ON) or (now.hour >= 19) or (now.hour <= 7):
             os.system("echo 'ACPITOOL' >> /root/tv_log")
             os.system("ssh {} acpitool -s >> /root/tv_log".format(ip))
         else:
             os.system("echo 'Wake On Lan' >> /root/tv_log")
             os.system("etherwake -i eth0 {} >> /root/tv_log".format(mac))
             os.system("wakeonlan {} >> /root/tv_log".format(mac))
-
 
     os.system("date >> /root/tv_log")
 
