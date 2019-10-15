@@ -47,15 +47,23 @@ NO_POWER_ON.append(RECESSO)
 now = datetime.datetime.now()
 
 
-for ip, mac in PCTVS.items():
-    # segunda a sexta      ou está no exclude               ou  é noite
-    if (now.weekday() > 4) or ((now.day, now.month) in NO_POWER_ON) or (now.hour >= 19) or (now.hour <= 7):
-        os.system("echo 'ACPITOOL' >> /root/tv_log")
-        os.system("ssh {} acpitool -s >> /root/tv_log".format(ip))
-    else:
-        os.system("echo 'Wake On Lan' >> /root/tv_log")
-        os.system("etherwake -i eth0 {} >> /root/tv_log".format(mac))
-        os.system("wakeonlan {} >> /root/tv_log".format(mac))
+def dia_util(data_atual):
+    return data_atual.weekday() < 4
 
 
-os.system("date >> /root/tv_log")
+def dispara_acpi_wake():
+    for ip, mac in PCTVS.items():
+        # segunda a sexta      ou está no exclude               ou  é noite
+        if (! dia_util(now) or ((now.day, now.month) in NO_POWER_ON) or (now.hour >= 19) or (now.hour <= 7):
+            os.system("echo 'ACPITOOL' >> /root/tv_log")
+            os.system("ssh {} acpitool -s >> /root/tv_log".format(ip))
+        else:
+            os.system("echo 'Wake On Lan' >> /root/tv_log")
+            os.system("etherwake -i eth0 {} >> /root/tv_log".format(mac))
+            os.system("wakeonlan {} >> /root/tv_log".format(mac))
+
+
+    os.system("date >> /root/tv_log")
+
+if __name__ == '__main__':
+    dispara_acpi_wake()
