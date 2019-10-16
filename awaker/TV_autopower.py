@@ -51,7 +51,7 @@ def dia_util(data_atual):
     return data_atual.weekday() < 4
 
 
-def fica_desligado(data_atual, dias_desligado):
+def dia_desligado(data_atual, dias_desligado):
     hoje = (data_atual.day, data_atual.month)
     return hoje in dias_desligado
 
@@ -63,7 +63,7 @@ def hora_util(datetime_atual):
 def dispara_acpi_wake():
     for ip, mac in PCTVS.items():
 
-        if not dia_util(now) or fica_desligado(now, NO_POWER_ON) or not hora_util(now): # noqa
+        if not dia_util(now) or dia_desligado(now, NO_POWER_ON) or not hora_util(now): # noqa
             os.system("echo 'ACPITOOL' >> /root/tv_log")
             os.system("ssh {} acpitool -s >> /root/tv_log".format(ip))
         else:
