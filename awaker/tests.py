@@ -1,8 +1,7 @@
 import unittest
 import datetime
 
-
-from TV_autopower import dia_util, fica_desligado
+from TV_autopower import dia_util, fica_desligado, hora_util
 
 
 class TestAutopower(unittest.TestCase):
@@ -37,7 +36,14 @@ class TestAutopower(unittest.TestCase):
         self.assertTrue(fica_desligado(tres_abril, NO_POWER_ON))
         self.assertFalse(fica_desligado(oito_julho, NO_POWER_ON))
 
+    def test_hora_util(self):
+        dez_manha = datetime.time(10, 42, 00)
+        treze_horas = datetime.time(13, 0, 0)
+        meia_noite = datetime.time(0, 10, 42)
 
+        self.assertTrue(hora_util(dez_manha))
+        self.assertTrue(hora_util(treze_horas))
+        self.assertFalse(hora_util(meia_noite))
 
 
 if __name__ == '__main__':

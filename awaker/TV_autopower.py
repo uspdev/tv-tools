@@ -56,10 +56,14 @@ def fica_desligado(data_atual, dias_desligado):
     return hoje in dias_desligado
 
 
+def hora_util(datetime_atual):
+    return 7 <= datetime_atual.hour <= 19
+
+
 def dispara_acpi_wake():
     for ip, mac in PCTVS.items():
-        # segunda a sexta      ou está no exclude               ou  é noite
-        if not dia_util(now) or fica_desligado(now, NO_POWER_ON) or (now.hour >= 19) or (now.hour <= 7):
+
+        if not dia_util(now) or fica_desligado(now, NO_POWER_ON) or not hora_util(now): # noqa
             os.system("echo 'ACPITOOL' >> /root/tv_log")
             os.system("ssh {} acpitool -s >> /root/tv_log".format(ip))
         else:
@@ -68,6 +72,7 @@ def dispara_acpi_wake():
             os.system("wakeonlan {} >> /root/tv_log".format(mac))
 
     os.system("date >> /root/tv_log")
+
 
 if __name__ == '__main__':
     dispara_acpi_wake()
