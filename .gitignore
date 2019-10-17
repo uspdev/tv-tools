@@ -6,3 +6,4 @@ tags
 ipList.json
 .vscode
 __pycache__
+awaker/settings.py

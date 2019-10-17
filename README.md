@@ -54,6 +54,9 @@ Reinicie o PC para que as alterações tenham efeito
 sudo ./install_awaker.sh
 ```
 
+2. Copie o arquivo `settings_example.py` para `settings.py` e preencha com
+os PCTVS de sua rede conforme instrução.
+
 Testar a execução tanto do `acpitool -s` quanto do `wakeonlan`
 
 

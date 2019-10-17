@@ -4,35 +4,34 @@
 # se editar local tem de atualizar no servidor git
 # *****************
 
-import os
+try:
+    from settings import PCTVS
+except ImportError as e:
+    print("Arquivo de configuração não encontrado")
+    print('[EXCEPTION]:', e)
+
+
 import datetime
-import urllib
-import json
+import os
 
-TV_MAC = "70:71:bc:62:e5:83"
-TV_IP = "10.233.31.19"
+NO_POWER_ON = []
 
-# EXC: dia/mes que não irá ligar
-# Feriados (dia, mes)
-EXC = [
-    (01, 01),
-    (21, 04),
-    (01, 05),
-    (07, 9),
+FERIADOS = [
+    (1, 1),
+    (21, 4),
+    (1, 5),
+    (7, 9),
     (12, 10),
-    (02, 11),
-    (04, 11),
+    (2, 11),
+    (4, 11),
     (15, 11),
     (25, 12),
 ]
 
-# emendas
-# EXC += [
-#     (03, 11),
-# ]
+NO_POWER_ON.append(FERIADOS)
 
 # Semana de recesso no final do ano
-EXC += [
+RECESSO = [
     (23, 12),
     (24, 12),
     (26, 12),
@@ -43,19 +42,20 @@ EXC += [
     (31, 12),
 ]
 
+NO_POWER_ON.append(RECESSO)
+
 now = datetime.datetime.now()
 
-with open('ipList.json', 'r') as jsFile:
-    ipList = json.load(jsFile)
-    for p in ipList['adresses']
-        # segunda a sexta      ou está no exclude               ou  é noite
-        if (now.weekday() > 4) or ((now.day, now.month) in EXC) or (now.hour >= 19) or (now.hour <= 7):
-            os.system("echo 'ACPITOOL' >> /root/tv_log")
-            os.system("ssh %s acpitool -s >> /root/tv_log" % p['IP'])
-        else:
-            os.system("echo 'Wake On Lan' >> /root/tv_log")
-            # os.system("etherwake -i eth0 %s >> /root/tv_log" % TV_MAC)
-            os.system("wakeonlan %s >> /root/tv_log" % p['MAC'])
+
+for ip, mac in PCTVS.items():
+    # segunda a sexta      ou está no exclude               ou  é noite
+    if (now.weekday() > 4) or ((now.day, now.month) in NO_POWER_ON) or (now.hour >= 19) or (now.hour <= 7):
+        os.system("echo 'ACPITOOL' >> /root/tv_log")
+        os.system("ssh {} acpitool -s >> /root/tv_log".format(ip))
+    else:
+        os.system("echo 'Wake On Lan' >> /root/tv_log")
+        os.system("etherwake -i eth0 {} >> /root/tv_log".format(mac))
+        os.system("wakeonlan {} >> /root/tv_log".format(mac))
 
 
 os.system("date >> /root/tv_log")
